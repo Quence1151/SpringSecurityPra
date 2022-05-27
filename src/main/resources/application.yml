@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.OracleDriver
+    url: jdbc:oracle:thin:@kosa2.iptime.org:50132:orcl1
+    username: QUENCE
+    password: Oracle456456
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: none
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      use-new-id-generator-mappings: false
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+  jwt:
+    secret: my_key
+  security:
+    user:
+      name: user
+      password: 1234
