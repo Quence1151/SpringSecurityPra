@@ -1,6 +1,6 @@
 package com.example.springsecuritypra.security;
 
-import com.example.springsecuritypra.jwt.JwtSecurityConfig;
+import com.example.springsecuritypra.jwt.JwtAuthenticationFilter;
 import com.example.springsecuritypra.service.MemberServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +13,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import com.example.springsecuritypra.jwt.JwtTokenProvider;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -47,7 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin().and()
         .cors().and()
         .csrf().disable()//로그인 창
-        ;
+        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+        UsernamePasswordAuthenticationFilter.class);
     }
 
     // 로그인 인증 처리 메소드
