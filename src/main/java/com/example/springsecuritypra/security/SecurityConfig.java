@@ -1,7 +1,9 @@
 package com.example.springsecuritypra.security;
 
 import com.example.springsecuritypra.jwt.JwtAuthenticationFilter;
+import com.example.springsecuritypra.jwt.JwtSecurityConfig;
 import com.example.springsecuritypra.service.MemberServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -15,16 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import com.example.springsecuritypra.jwt.JwtTokenProvider;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @EnableWebSecurity
+@RequiredArgsConstructor
 // WebSecurityConfigurerAdapter : 스프링 시큐리티의 웹 보안 기능의 초기화 및 설정 담당
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final MemberServiceImpl memberService;
-    private JwtTokenProvider jwtTokenProvider;
-
-    public SecurityConfig(MemberServiceImpl memberService) {
-        this.memberService = memberService;
-    }
+    private final JwtTokenProvider jwtTokenProvider;
 
     // 암호화에 필요한 PasswordEncoder 를 Bean 등록합니다.
     @Bean
@@ -48,8 +46,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .formLogin().and()
         .cors().and()
         .csrf().disable()//로그인 창
-        .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-        UsernamePasswordAuthenticationFilter.class);
+        .apply(new JwtSecurityConfig(jwtTokenProvider)); //로그인 창
     }
 
     // 로그인 인증 처리 메소드

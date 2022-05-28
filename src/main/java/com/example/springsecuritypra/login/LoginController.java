@@ -1,5 +1,6 @@
 package com.example.springsecuritypra.login;
 
+import com.example.springsecuritypra.jwt.JwtTokenProvider;
 import com.example.springsecuritypra.member.Member;
 import com.example.springsecuritypra.service.MemberServiceImpl;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LoginController {
     private final MemberServiceImpl service;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @GetMapping("/signup")
     public String signUpForm() {
@@ -34,7 +36,7 @@ public class LoginController {
     public String userAccess(Model model, Authentication authentication) {
         MyUserDetail userDetail = (MyUserDetail)authentication.getPrincipal();
         log.info(userDetail.getUsername());
-        model.addAttribute("info", userDetail.getUsername());
+        model.addAttribute("info", jwtTokenProvider.createToken(userDetail.getUsername(), userDetail.getAuthorities()));
         return "list";
     }
 }

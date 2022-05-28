@@ -1,7 +1,6 @@
 package com.example.springsecuritypra.jwt;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -12,7 +11,6 @@ import java.io.IOException;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilter {
-
     private final JwtTokenProvider jwtTokenProvider;
 
     @Override

@@ -14,8 +14,6 @@ spring:
     show-sql: true
     properties:
       hibernate.format_sql: true
-  jwt:
-    secret: my_key
   security:
     user:
       name: user
